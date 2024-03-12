@@ -23,6 +23,7 @@
     "exclude": ["CHANGELOG.md"]
   },
   "imports": {
-    "@/": "./"
+    "@/": "./",
+    "hono/": "https://deno.land/x/hono@v4.1.0/"
   }
 }
