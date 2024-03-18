@@ -3,6 +3,7 @@
     "editorconfig.editorconfig",
     "denoland.vscode-deno",
     "redhat.vscode-yaml",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "biomejs.biome"
   ]
 }

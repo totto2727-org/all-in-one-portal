@@ -1,0 +1,35 @@
+{
+  "name": "@totto/all-in-one-portal",
+  "version": "0.1.2",
+  "lock": false,
+  "tasks": {
+    "dev": "deno run --watch --unstable-kv --unstable-cron --allow-net --allow-env main.ts",
+    "test": "deno test --allow-read",
+    "fix": "deno task fix:biome && deno task fix:deno",
+    "fix:biome": "deno run --allow-env --allow-read --allow-run npm:@biomejs/biome check --apply-unsafe .",
+    "fix:deno": "deno fmt",
+    "check": "deno task check:biome && deno task check:deno:check",
+    "check:biome": "deno run --allow-env --allow-read --allow-run npm:@biomejs/biome ci .",
+    "check:deno:fmt": "deno fmt --check",
+    "check:deno:check": "deno check **/*.ts",
+    "update:check": "deno run --allow-env --allow-read --allow-write=. --allow-run=git,deno --allow-net=registry.npmjs.org,jsr.io https://deno.land/x/molt/cli.ts ./**/*.ts",
+    "update:write": "deno task update:check --write",
+    "changelog": "git cliff -o CHANGELOG.md"
+  },
+  "fmt": {
+    "semiColons": false,
+    "include": ["**/*.md"],
+    "exclude": ["CHANGELOG.md"]
+  },
+  "imports": {
+    "@/": "./",
+    "@lib": "jsr:@totto/lib@0.1.2",
+    "hono": "npm:hono@4.1.0",
+    "@hono/valibot": "npm:@hono/valibot-validator@0.2.2",
+    "valibot/": "https://deno.land/x/valibot@v0.29.0/",
+    "effect": "npm:effect@2.4.3",
+    "@effect/platform": "npm:@effect/platform@0.48.0",
+    "@effect/schema": "npm:@effect/schema@0.64.0",
+    "ts-belt": "npm:@mobily/ts-belt@next"
+  }
+}

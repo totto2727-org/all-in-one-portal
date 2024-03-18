@@ -1,25 +1,25 @@
 pre-commit:
   parallel: true
   commands:
-    fmt:
+    check:biome:
       glob: "*.{ts,tsx,md,json,jsonc}"
+      run: deno run --allow-env --allow-read --allow-run npm:@biomejs/biome check --apply-unsafe {staged_files}
+    check:deno:fmt:
+      glob: "*.{md}"
       run: deno fmt {staged_files}
-    lint:
-      glob: "*.{ts,tsx}"
-      run: deno lint {staged_files}
-    check:
+    check:deno:check:
       glob: "*.{ts,tsx}"
       run: deno check {staged_files}
 
 pre-push:
   parallel: true
   commands:
-    fmt:
+    check:biome:
       glob: "*.{ts,tsx,md,json,jsonc}"
-      run: deno fmt --check {push_files}
-    lint:
+      run: deno run --allow-env --allow-read --allow-run npm:@biomejs/biome check --apply-unsafe {staged_files}
+    check:deno:fmt:
+      glob: "*.{md}"
+      run: deno fmt {staged_files}
+    check:deno:check:
       glob: "*.{ts,tsx}"
-      run: deno lint {push_files}
-    check:
-      glob: "*.{ts,tsx}"
-      run: deno check {push_files}
+      run: deno check {staged_files}
