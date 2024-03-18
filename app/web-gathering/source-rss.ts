@@ -1,8 +1,7 @@
 import { vValidator } from "@/lib/hono/valibot.ts"
 import { type MessageSatisfies, createMessage } from "@/lib/queue/index.ts"
-import { pipe } from "effect"
 import { Hono } from "hono"
-import { A, F } from "ts-belt"
+import { A, F, pipe } from "ts-belt"
 import * as v from "valibot/mod.ts"
 
 export const path = "/web-gathering-source-rss"
