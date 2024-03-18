@@ -18,23 +18,19 @@
   },
   "fmt": {
     "semiColons": false,
-    "include": [
-      "**/*.md"
-    ],
-    "exclude": [
-      "CHANGELOG.md"
-    ]
+    "include": ["**/*.md"],
+    "exclude": ["CHANGELOG.md"]
   },
   "imports": {
     "@/": "./",
     "@lib": "jsr:@totto/lib@0.1.2",
+    "@lib/": "jsr:@totto/lib@0.1.2/",
     "@libsql/client": "npm:@libsql/client@0.5.6",
+    "@libsql/client/": "npm:@libsql/client@0.5.6/",
     "hono": "npm:hono@4.1.0",
+    "hono/": "npm:hono@4.1.0/",
     "@hono/valibot": "npm:@hono/valibot-validator@0.2.2",
     "valibot/": "https://deno.land/x/valibot@v0.29.0/",
-    "effect": "npm:effect@2.4.3",
-    "@effect/platform": "npm:@effect/platform@0.48.0",
-    "@effect/schema": "npm:@effect/schema@0.64.0",
     "ts-belt": "npm:@mobily/ts-belt@next"
   }
 }
