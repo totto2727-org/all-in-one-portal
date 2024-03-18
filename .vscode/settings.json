@@ -10,6 +10,9 @@
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
