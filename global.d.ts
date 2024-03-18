@@ -1,4 +1,5 @@
+// @ts-nocheck - This is a global declaration file
+
 declare namespace Belt {
-  // @ts-ignores - duplicate identifier
   type UseMutableArrays = 1
 }
