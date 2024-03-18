@@ -1,9 +1,9 @@
-import { Message } from "./type.ts"
+import type { Message } from "./type.ts"
 
-export function createMessage<T>(
-  path: string,
-  body: T,
-): Message<T> {
+export function createMessage<T extends string, U>(
+  path: T,
+  body: U,
+): Message<T, U> {
   return {
     path,
     body,
