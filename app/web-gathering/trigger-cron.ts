@@ -8,7 +8,7 @@ export const path = "/web-gathering-trigger-cron"
 
 export const name = queuePathToCronName(path)
 
-export const schedule = "*/1 * * * *"
+export const schedule = "0 */1 * * *"
 
 export const executer = new Hono().get("/", async () => {
   const kv = await Deno.openKv()
