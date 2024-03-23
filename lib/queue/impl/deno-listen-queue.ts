@@ -1,7 +1,7 @@
 import type { Message } from "../../message/message.ts"
 import type { ListenQueueRepository } from "../repository.ts"
 
-export class DenoQueueRepository implements ListenQueueRepository<void> {
+export class DenoListenQueueRepository implements ListenQueueRepository<void> {
   constructor(
     private readonly kv: Deno.Kv,
     private readonly fn: (message: Message) => Promise<void>,

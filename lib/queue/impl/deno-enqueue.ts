@@ -10,7 +10,7 @@ export class DenoEnqueueRepository
     this.kv = kv
   }
 
-  enqueueQueue(message: Message) {
+  enqueue(message: Message) {
     return pipe(
       R.fromPromise(this.kv.enqueue(message)),
       AR.mapError((e) => new HTTPException(500, e as Error)),
