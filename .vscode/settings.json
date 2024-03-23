@@ -1,5 +1,6 @@
 {
   "deno.enable": true,
+  "biome.enabled": true,
   "github.copilot.enable": {
     "*": true
   },
