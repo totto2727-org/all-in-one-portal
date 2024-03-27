@@ -29,6 +29,7 @@
     "@lib/result": "jsr:@totto/lib@0.2.1/result",
     "@lib/result/eager": "jsr:@totto/lib@0.2.1/result/eager",
     "@libsql/client": "npm:@libsql/client@0.5.6",
+    "type-fest": "npm:type-fest@4.14.0",
     "hono": "npm:hono@4.1.0",
     "hono/logger": "npm:hono@4.1.0/logger",
     "hono/validator": "npm:hono@4.1.0/validator",
