@@ -1,7 +1,8 @@
 import * as v from "valibot/mod.ts"
+import { sortedUrlString } from "@/lib/type.ts"
 
 export const linkValidator = v.object({
-  url: v.instance(URL),
+  url: sortedUrlString,
   // リンクの性質 代替リンク、リソースへの直接リンクなど
   rel: v.optional(v.string()),
   // 取得するコンテンツそのもの性質
