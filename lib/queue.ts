@@ -1,8 +1,6 @@
 import type { Message } from "@/lib/message.ts"
-import { HTTPException } from "hono/http-exception"
 import { AR, G, R } from "ts-belt"
 import { pipe } from "ts-belt"
-import type { EmptyObject, UnknownRecord } from "type-fest"
 import { depend } from "velona"
 
 export type MessageHandler = (message: Message) => Promise<void>
@@ -17,18 +15,12 @@ type QueueClient = {
   listenQueue: ListenQueue
 }
 
-class DenoQueueClient implements QueueClient {
-  private kv: Deno.Kv | undefined
-
-  private async openKv(): Promise<Deno.Kv> {
-    if (this.kv) return this.kv
-
-    this.kv = await Deno.openKv()
-    return this.kv
-  }
+export class DenoQueueClient implements QueueClient {
+  constructor(private readonly kv: Promise<Deno.Kv>) {}
 
   async enqueue(message: Message): AR.AsyncResult<null, Error> {
-    const kv = await this.openKv()
+    const kv = await this.kv
+
     return pipe(
       kv.enqueue(message),
       R.fromPromise,
@@ -37,20 +29,34 @@ class DenoQueueClient implements QueueClient {
   }
 
   async listenQueue(handler: MessageHandler): AR.AsyncResult<null, Error> {
-    const kv = await this.openKv()
+    const kv = await this.kv
+
     return pipe(
       kv.listenQueue(handler),
       R.fromPromise,
       AR.map(() => null),
     )
   }
+
+  async [Symbol.asyncDispose]() {
+    const kv = await this.kv
+    kv.close()
+  }
 }
 
-const denoKvSingleton: QueueClient = new DenoQueueClient()
+let denoKvSingleton: QueueClient | null = null
+
+const createDenoQueueClient = depend({ kv: Deno.openKv() }, (di) => {
+  if (G.isNotNullable(denoKvSingleton)) return denoKvSingleton
+
+  const client = new DenoQueueClient(di.kv)
+  denoKvSingleton = client
+  return client
+})
 
 export const enqueuRepository = depend(
   {
-    queueClient: denoKvSingleton,
+    queueClient: createDenoQueueClient(),
   },
   async ({ queueClient }, message: Message) => {
     return queueClient.enqueue(message)
@@ -59,7 +65,7 @@ export const enqueuRepository = depend(
 
 export const listenQueueRepository = depend(
   {
-    queueClient: denoKvSingleton,
+    queueClient: createDenoQueueClient(),
   },
   async ({ queueClient }, handler: (message: Message) => Promise<void>) => {
     return queueClient.listenQueue(handler)
