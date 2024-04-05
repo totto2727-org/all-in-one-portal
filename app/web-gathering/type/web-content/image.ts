@@ -1,5 +1,5 @@
-import * as v from "valibot/mod.ts"
 import { sortedUrlString } from "@/lib/type.ts"
+import * as v from "valibot/mod.ts"
 
 export const imageValidator = v.object({
   url: sortedUrlString,
