@@ -16,6 +16,7 @@
     "update:write": "deno task update:check --write",
     "changelog": "git cliff -o CHANGELOG.md"
   },
+  "exclude": [".history"],
   "fmt": {
     "semiColons": false,
     "include": ["**/*.md"],
