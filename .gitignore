@@ -131,3 +131,6 @@ dist
 
 # turborepo
 .turbo/
+
+# .env.yaml
+*.env.yaml

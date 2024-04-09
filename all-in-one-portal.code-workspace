@@ -1,0 +1,81 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "./hasura"
+    }
+  ],
+  "settings": {
+    "deno.enable": true,
+    "biome.enabled": true,
+    "github.copilot.enable": {
+      "*": true
+    },
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.biome": "explicit",
+      "quickfix.biome": "explicit"
+    },
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "[json]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[markdown]": {
+      "editor.defaultFormatter": "denoland.vscode-deno"
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "editorconfig.editorconfig",
+      "denoland.vscode-deno",
+      "redhat.vscode-yaml",
+      "esbenp.prettier-vscode",
+      "biomejs.biome",
+      "HasuraHQ.hasura"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "request": "launch",
+        "type": "node",
+        "program": "${workspaceFolder}/hasura",
+        "name": "DDN Watch",
+        "preLaunchTask": "watch",
+        "cwd": "${workspaceFolder}/hasura"
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "watch",
+        "type": "shell",
+        "command": "ddn",
+        "args": ["watch", "--dir", "."],
+        "problemMatcher": [],
+        "presentation": {
+          "reveal": "always",
+          "panel": "new",
+          "focus": true,
+          "close": false,
+          "clear": true
+        },
+        "options": {
+          "cwd": "${workspaceFolder}/hasura"
+        }
+      }
+    ]
+  }
+}
