@@ -22,7 +22,9 @@ export function createHonoCron(
       // TODO 例外処理
       if (!result.ok) {
         throw new Error(
-          `Failed to cron ${path}: ${result.status} ${result.statusText}`,
+          `Failed to cron ${path}: ${result.status} ${
+            result.statusText
+          } ${await result.text()}`,
         )
       }
     },
