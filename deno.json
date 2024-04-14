@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "lock": false,
   "tasks": {
-    "dev": "deno run --watch --unstable-kv --unstable-cron --allow-net --allow-env main.ts",
+    "dev": "deno run --watch --unstable-kv --unstable-cron --allow-net --allow-env --allow-read --allow-write --allow-run=docker --inspect-brk dev.ts",
     "test": "deno test --allow-read",
     "fix": "deno task fix:biome && deno task fix:deno",
     "fix:biome": "deno run --allow-env --allow-read --allow-run npm:@biomejs/biome check --apply-unsafe .",
@@ -14,7 +14,10 @@
     "check:deno:check": "deno check **/*.ts",
     "update:check": "deno run --allow-env --allow-read --allow-write=. --allow-run=git,deno --allow-net=registry.npmjs.org,jsr.io https://deno.land/x/molt/cli.ts ./**/*.ts",
     "update:write": "deno task update:check --write",
-    "changelog": "git cliff -o CHANGELOG.md"
+    "changelog": "git cliff -o CHANGELOG.md",
+    "build:production:db": "source .env.production.local && cockroach sql --url $DATABASE_URL",
+    "build:local:db": "source .env && cockroach sql --url $DATABASE_URL",
+    "env": "deno run --allow-env --allow-read --allow-run=deno npm:dotenv-cli -e .env"
   },
   "exclude": [".history"],
   "fmt": {
@@ -24,6 +27,7 @@
   },
   "imports": {
     "@/": "./",
+    "@std/dotenv": "jsr:@std/dotenv@0.222.1",
     "@lib": "jsr:@totto/lib@0.2.1",
     "@lib/safe": "jsr:@totto/lib@0.2.1/safe",
     "@lib/test": "jsr:@totto/lib@0.2.1/test",
@@ -37,6 +41,10 @@
     "hono/validator": "npm:hono@4.1.0/validator",
     "hono/utils/types": "npm:hono@4.1.0/utils/types",
     "hono/http-exception": "npm:hono@4.1.0/http-exception",
+    "drizzle-orm": "npm:drizzle-orm@0.30.7",
+    "drizzle-kit": "npm:drizzle-kit@0.20.14",
+    "@testcontainers/postgresql": "npm:@testcontainers/postgresql",
+    "postgres": "https://deno.land/x/postgresjs@v3.4.4/mod.js",
     "@hono/valibot": "npm:@hono/valibot-validator@0.2.2",
     "valibot/": "https://deno.land/x/valibot@v0.29.0/",
     "ts-belt": "npm:@mobily/ts-belt@next"
