@@ -1,5 +1,4 @@
 import { createRequest } from "@/lib/message.ts"
-import type { Hono } from "hono"
 import { S } from "ts-belt"
 
 export type Cron = {
@@ -8,8 +7,8 @@ export type Cron = {
   executor: () => Promise<void>
 }
 
-export function createHonoCron(
-  hono: Hono,
+export function createCronFromFetcher(
+  fetcher: { fetch: (req: Request) => Response | Promise<Response> },
   schedule: string,
   path: string,
 ): Cron {
@@ -17,7 +16,7 @@ export function createHonoCron(
     schedule,
     name: pathToName(path),
     executor: async () => {
-      const result = await hono.fetch(createRequest(path))
+      const result = await fetcher.fetch(createRequest(path))
 
       // TODO 例外処理
       if (!result.ok) {
