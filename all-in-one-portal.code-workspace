@@ -4,7 +4,7 @@
       "path": "."
     },
     {
-      "path": "./hasura"
+      "path": "./db"
     }
   ],
   "settings": {
@@ -39,8 +39,7 @@
       "denoland.vscode-deno",
       "redhat.vscode-yaml",
       "esbenp.prettier-vscode",
-      "biomejs.biome",
-      "HasuraHQ.hasura"
+      "biomejs.biome"
     ]
   },
   "launch": {
