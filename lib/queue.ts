@@ -1,30 +1,21 @@
+import { _TextDecoder } from "https://deno.land/std@0.132.0/node/_utils.ts"
 import type { Message } from "@/lib/message.ts"
-import { R } from "ts-belt"
-import { depend } from "velona"
+import { type AR, R } from "ts-belt"
 
 type MessageHandler = (message: Message) => Promise<void>
 
-type Enqueue<T> = (message: Message) => Promise<T>
+type EnqueueRepository = (message: Message) => AR.AsyncResult<void, Error>
 
-type ListenQueue<T> = (handler: MessageHandler) => Promise<T>
+type ListenQueueRepository = (
+  handler: MessageHandler,
+) => AR.AsyncResult<void, Error>
 
-type QueueClient<T = void, U = void> = {
-  enqueue: Enqueue<T>
-  listenQueue: ListenQueue<U>
-}
+export const createEnqueueRepository: (kv: Deno.Kv) => EnqueueRepository =
+  (kv) => (message) =>
+    // 返り値が不要のため削除
+    R.fromPromise(kv.enqueue(message).then())
 
-using queueClient: QueueClient<Deno.KvCommitResult> = await Deno.openKv()
-
-export const enqueuRepository = depend(
-  { queueClient },
-  async (di, message: Message) => {
-    return await R.fromPromise(di.queueClient.enqueue(message))
-  },
-)
-
-export const listenQueueRepository = depend(
-  { queueClient },
-  async (di, handler: MessageHandler) => {
-    return await R.fromPromise(di.queueClient.listenQueue(handler))
-  },
-)
+export const createListenQueueRepository: (
+  kv: Deno.Kv,
+) => ListenQueueRepository = (kv) => (handler) =>
+  R.fromPromise(kv.listenQueue(handler))
