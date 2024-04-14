@@ -1,19 +1,19 @@
-import { listenQueueRepository } from "@/lib/queue.ts"
-import { assert, assertEquals, spy } from "@lib/test"
+import {
+  createEnqueueRepository,
+  createListenQueueRepository,
+} from "@/lib/queue.ts"
+import { assert, assertEquals } from "@lib/test"
 import { R } from "ts-belt"
-import { triggerRssUseCase } from "./cron.ts"
+import { createTriggerRssUseCase } from "./cron.ts"
 
 Deno.test("triggerUseCaseのテスト", async (t) => {
   using queueClient = await Deno.openKv(":memory:")
+  const enqueueRepository = createEnqueueRepository(queueClient)
+  const listenQueueRepository = createListenQueueRepository(queueClient)
 
-  const injectedTriggerUseCase = triggerRssUseCase.inject((deps) => ({
-    enqueueRepository: deps.enqueueRepository.inject({ queueClient }),
-  }))
-  const injectedListenQueueRepository = listenQueueRepository.inject({
-    queueClient,
-  })
+  const triggerRssUseCase = createTriggerRssUseCase(enqueueRepository)
 
-  const result = await injectedTriggerUseCase()
+  const result = await triggerRssUseCase()
 
   await t.step("正常終了する", () => {
     assert(R.isOk(result))
@@ -25,7 +25,7 @@ Deno.test("triggerUseCaseのテスト", async (t) => {
       const { promise, resolve } = Promise.withResolvers()
 
       // deno-lint-ignore require-await
-      injectedListenQueueRepository(async (m) => {
+      listenQueueRepository(async (m) => {
         assertEquals(m, {
           path: "/web-gathering/source-rss",
           body: {},
