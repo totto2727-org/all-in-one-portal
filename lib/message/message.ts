@@ -5,6 +5,7 @@ const messageValidator = v.object({
   path: v.string(),
   body: v.record(v.unknown()),
 })
+
 export type Message = v.Output<typeof messageValidator>
 
 export type MessageSatisfies = {
