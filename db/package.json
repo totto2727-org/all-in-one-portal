@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "migration:generate": "drizzle-kit generate:pg"
+  },
+  "dependencies": {
+    "drizzle-kit": "^0.20.17",
+    "drizzle-orm": "^0.30.9",
+    "postgres": "^3.4.4"
+  }
+}

@@ -1,7 +1,14 @@
-import { G } from "ts-belt"
+import { G, R } from "ts-belt"
 import * as v from "valibot/mod.ts"
 
 export type UnknownRecord = Record<string, unknown>
+
+// biome-ignore lint/suspicious/noConfusingVoidType: <explanation>
+export type Void = void | undefined
+
+export function okVoid(): R.Ok<undefined> {
+  return R.Ok(undefined)
+}
 
 export const isoDateTimeString = v.transform(
   v.union([v.string([v.isoTimestamp()]), v.date()]),

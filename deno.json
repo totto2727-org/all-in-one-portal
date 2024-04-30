@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "lock": false,
   "tasks": {
-    "dev": "deno run --watch --unstable-kv --unstable-cron --allow-net --allow-env --allow-read --allow-write --allow-run=docker --inspect-brk dev.ts",
+    "dev": "deno run --watch --unstable-kv --unstable-cron --allow-net --allow-env --allow-read --allow-write --allow-run=docker dev.ts",
     "test": "deno test --allow-read",
     "fix": "deno task fix:biome && deno task fix:deno",
     "fix:biome": "deno run --allow-env --allow-read --allow-run npm:@biomejs/biome check --apply-unsafe .",
@@ -17,6 +17,7 @@
     "changelog": "git cliff -o CHANGELOG.md",
     "build:production:db": "source .env.production.local && cockroach sql --url $DATABASE_URL",
     "build:local:db": "source .env && cockroach sql --url $DATABASE_URL",
+    "migrate:up": "deno run --allow-read --allow-net db/migration.ts",
     "env": "deno run --allow-env --allow-read --allow-run=deno npm:dotenv-cli -e .env"
   },
   "exclude": [".history"],
@@ -47,6 +48,7 @@
     "postgres": "https://deno.land/x/postgresjs@v3.4.4/mod.js",
     "@hono/valibot": "npm:@hono/valibot-validator@0.2.2",
     "valibot/": "https://deno.land/x/valibot@v0.29.0/",
-    "ts-belt": "npm:@mobily/ts-belt@next"
+    "ts-belt": "npm:@mobily/ts-belt@next",
+    "uuidv7": "npm:uuidv7@0.6.3"
   }
 }
